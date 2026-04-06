@@ -15,76 +15,76 @@ class IndexView(View):
 class AvaliacaoTipoView(View):
     def get(self, request, *args, **kwargs):
         dados = AvaliacaoTipo.objects.all()
-        return render(request, 'avaliacao_tipo.html', {'dados': dados, 'titulo': 'Tipos de Avaliação'})
+        return render(request, 'index.html', {'avaliacao_tipo': dados})
 
 class TurnoView(View):
     def get(self, request, *args, **kwargs):
         dados = Turno.objects.all()
-        return render(request, 'turno.html', {'dados': dados, 'titulo': 'Turnos'})
+        return render(request, 'index.html', {'turno': dados})
 
 class TurmaView(View):
     def get(self, request, *args, **kwargs):
         dados = Turma.objects.all()
-        return render(request, 'turma.html', {'dados': dados, 'titulo': 'Turmas'})
+        return render(request, 'index.html', {'turma': dados})
 
 class AreaSaberView(View):
     def get(self, request, *args, **kwargs):
         dados = AreaSaber.objects.all()
-        return render(request, 'area_saber.html', {'dados': dados, 'titulo': 'Áreas do Saber'})
+        return render(request, 'index.html', {'area_saber': dados})
 
 class OcupacaoView(View):
     def get(self, request, *args, **kwargs):
         dados = Ocupacao.objects.all()
-        return render(request, 'ocupacao.html', {'dados': dados, 'titulo': 'Ocupações'})
+        return render(request, 'index.html', {'ocupacao': dados})
 
 class CidadeView(View):
     def get(self, request, *args, **kwargs):
         dados = Cidade.objects.all()
-        return render(request, 'cidade.html', {'dados': dados, 'titulo': 'Cidades'})
+        return render(request, 'index.html', {'cidade': dados})
 
 # --- LISTAGENS COM RELACIONAMENTOS (Usando select_related para performance) ---
 
 class PessoaView(View):
     def get(self, request, *args, **kwargs):
         pessoas = Pessoa.objects.select_related('cidade', 'ocupacao').all()
-        return render(request, 'pessoa.html', {'pessoas': pessoas})
+        return render(request, 'index.html', {'pessoa': pessoas})
 
 class InstituicaoEnsinoView(View):
     def get(self, request, *args, **kwargs):
         instituicoes = InstituicaoEnsino.objects.select_related('cidade').all()
-        return render(request, 'instituicao_ensino.html', {'instituicoes': instituicoes})
+        return render(request, 'index.html', {'instituicao_ensino': instituicoes})
 
 class CursoView(View):
     def get(self, request, *args, **kwargs):
         cursos = Curso.objects.select_related('area_saber', 'instituicao_ensino').all()
-        return render(request, 'curso.html', {'cursos': cursos})
+        return render(request, 'index.html', {'curso': cursos})
 
 class DisciplinaView(View):
     def get(self, request, *args, **kwargs):
         disciplinas = Disciplina.objects.select_related('area_saber').all()
-        return render(request, 'disciplina.html', {'disciplinas': disciplinas})
+        return render(request, 'index.html', {'disciplina': disciplinas})
 
 class MatriculaView(View):
     def get(self, request, *args, **kwargs):
         matriculas = Matricula.objects.select_related('instituicao_ensino', 'curso', 'pessoa').all()
-        return render(request, 'matricula.html', {'matriculas': matriculas})
+        return render(request, 'index.html', {'matricula': matriculas})
 
 class AvaliacaoView(View):
     def get(self, request, *args, **kwargs):
         avaliacoes = Avaliacao.objects.select_related('curso', 'disciplina', 'avaliacao_tipo').all()
-        return render(request, 'templates/avaliacao.html', {'avaliacoes': avaliacoes})
+        return render(request, 'index.html', {'avaliacao': avaliacoes})
 
 class FrequenciaView(View):
     def get(self, request, *args, **kwargs):
         frequencias = Frequencia.objects.select_related('curso', 'disciplina', 'pessoa').all()
-        return render(request, 'frequencia.html', {'frequencias': frequencias})
+        return render(request, 'index.html', {'frequencia': frequencias})
 
 class OcorrenciaView(View):
     def get(self, request, *args, **kwargs):
         ocorrencias = Ocorrencia.objects.select_related('curso', 'disciplina', 'pessoa').all()
-        return render(request, 'ocorrencia.html', {'ocorrencias': ocorrencias})
+        return render(request, 'index.html', {'ocorrencia': ocorrencias})
 
 class CursoDisciplinaView(View):
     def get(self, request, *args, **kwargs):
         relacoes = CursoDisciplina.objects.select_related('disciplina', 'curso').all()
-        return render(request, 'curso_disciplina.html', {'relacoes': relacoes})
+        return render(request, 'index.html', {'curso_disciplina': relacoes})

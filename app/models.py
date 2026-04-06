@@ -77,18 +77,6 @@ class InstituicaoEnsino(models.Model):
         verbose_name = "InstituiçãoEnsino"
         verbose_name_plural = "InstituiçõesEnsino"
 
-class Curso(models.Model):
-    nome = models.CharField(max_length=100, verbose_name="Nome do curso:")
-    carga_horaria_total = models.CharField(max_length=100, verbose_name="Quantidade de horas:")
-    duracao_meses = models.IntegerField(verbose_name = "Quantidade de meses do Curso:")
-    area_saber = models.ForeignKey(AreaSaber,on_delete = models.CASCADE,verbose_name = "Area do saber:")
-    instituicao_ensino=models.ForeignKey(InstituicaoEnsino,on_delete = models.CASCADE, verbose_name="Instituição de Ensino:")
-    def __str__(self):
-        return f"{self.nome}, {self.carga_horaria_total}, {self.duracao_meses}"
-    class Meta:
-        verbose_name = "Curso"
-        verbose_name_plural = "Cursos"
-    
 class Disciplina(models.Model):
     nome = models.CharField(max_length=100, verbose_name="Nome da disciplina:")
     area_saber = models.ForeignKey(AreaSaber,on_delete = models.CASCADE,verbose_name = "Area do saber:")
@@ -97,6 +85,21 @@ class Disciplina(models.Model):
     class Meta:
         verbose_name = "Disciplina"
         verbose_name_plural = "Disciplinas"
+
+class Curso(models.Model):
+    nome = models.CharField(max_length=100, verbose_name="Nome do curso:")
+    carga_horaria_total = models.CharField(max_length=100, verbose_name="Quantidade de horas:")
+    duracao_meses = models.IntegerField(verbose_name = "Quantidade de meses do Curso:")
+    area_saber = models.ForeignKey(AreaSaber,on_delete = models.CASCADE,verbose_name = "Area do saber:")
+    instituicao_ensino=models.ForeignKey(InstituicaoEnsino,on_delete = models.CASCADE, verbose_name="Instituição de Ensino:")
+    disciplina = models.ForeignKey(Disciplina, on_delete = models.CASCADE, default = '1', verbose_name = "Disciplina")
+    def __str__(self):
+        return f"{self.nome}, {self.carga_horaria_total}, {self.duracao_meses}"
+    class Meta:
+        verbose_name = "Curso"
+        verbose_name_plural = "Cursos"
+    
+
         
 class Matricula(models.Model):
     instituicao_ensino=models.ForeignKey(InstituicaoEnsino,on_delete = models.CASCADE, verbose_name="Instituição de Ensino:")
@@ -104,6 +107,7 @@ class Matricula(models.Model):
     pessoa = models.ForeignKey(Pessoa, on_delete = models.CASCADE, verbose_name="Nome Curso:")
     data_inicio = models.DateField(verbose_name = "Data da Matricula:")
     data_previsao_termino = models.DateField(verbose_name = "Previsão do termino:")
+    turma = models.ForeignKey(Turma, on_delete = models.CASCADE, default = '1',verbose_name="Turma Aluno:")
     def __str__(self):
         return f"{self.data_inicio}, {self.data_previsao_termino}"
     class Meta:
@@ -127,7 +131,7 @@ class Frequencia(models.Model):
     pessoa = models.ForeignKey(Pessoa, on_delete = models.CASCADE, verbose_name = "Pessoa")
     numero_faltas = models.IntegerField(verbose_name="Número de faltas")
     def __str__(self):
-        return self.numero_faltas
+        return f"{self.pessoa.nome} - {self.numero_faltas} faltas"
     class Meta:
         verbose_name = "Frequência"
         verbose_name_plural = "Frequências"

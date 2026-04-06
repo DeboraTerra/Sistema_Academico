@@ -1,11 +1,11 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 from app.views import * # Certifique-se de que seu app se chama 'app'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', IndexView.as_view(), name='index'),
-    path('pessoas/', PessoaView.as_view(), name='pessoa'),
+    path('pessoa/', PessoaView.as_view(), name='pessoa'),
     path('ocupacao/', OcupacaoView.as_view(), name='ocupacao'),
     path('cidade/', CidadeView.as_view(), name='cidade'),
     path('instituicao/', InstituicaoEnsinoView.as_view(), name='instituicao'),
