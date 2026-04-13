@@ -8,12 +8,14 @@
     <style>
         .card { transition: transform .2s; border: none; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
         .card:hover { transform: scale(1.02); }
-        .section-title { border-left: 5px solid #28a745; padding-left: 15px; margin-bottom: 25px; margin-top: 40px; }
+        .section-title { border-left: 5px solid #28a745; padding-left: 15px; margin-bottom: 25px; margin-top: 40px; color: #218838; }
+        .border-left-success { border-left: 4px solid #28a745 !important; }
+        .border-left-info { border-left: 4px solid #17a2b8 !important; }
     </style>
 </head>
 <body class="bg-light">
     <nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm">
-        <a class="navbar-brand" href="/">Sistema Acadêmico</a>
+        <a class="navbar-brand font-weight-bold" href="/">Sistema Acadêmico</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -28,9 +30,10 @@
 
     <div class="container mt-5">
         <div class="jumbotron text-center bg-white shadow-sm">
-            <h1 class="display-4 text-success">Sistema Acadêmico</h1>
-            <p class="lead">Listagem Geral de Dados</p>
+            <h1 class="display-4 text-success font-weight-bold">Dados Gerais</h1>
+            <p class="lead">Visualização de todos os registros do sistema</p>
         </div>
+
         <h2 class="section-title">Áreas do Saber</h2>
         <div class="row">
             {% for area in area_saber %}
@@ -43,156 +46,120 @@
             </div>
             {% endfor %}
         </div>
+
         <h2 class="section-title">Instituição de Ensino</h2>
         <div class="row">
             {% for inst in instituicao_ensino %}
             <div class="col-md-4 mb-4">
                 <div class="card h-100">
-                    <div class="card-body d-flex align-items-center">
-                        <h5 class="card-title mb-0 text-dark">{{ inst.nome }}</h5>
-                        <small class="text-info text-dark">{{ inst.site }}</small>
-                        <small class="text-info text-dark">{{ inst.telefone }}</small>
-                        <small class="text-info text-dark">{{ inst.cidade }}</small>
+                    <div class="card-body">
+                        <h5 class="card-title text-success">{{ inst.nome }}</h5>
+                        <p class="mb-1 small"><strong>Site:</strong> <a href="{{ inst.site }}" target="_blank">{{ inst.site }}</a></p>
+                        <p class="mb-1 small"><strong>Tel:</strong> {{ inst.telefone }}</p>
+                        <p class="mb-0 small"><strong>Cidade:</strong> {{ inst.cidade }}</p>
                     </div>
                 </div>
             </div>
             {% endfor %}
         </div>
-        <h2 class="section-title">Avaliacao</h2>
+
         <div class="row">
-            {% for av in avaliacao %}
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body d-flex align-items-center">
-                        <h5 class="card-title mb-0 text-dark">{{ av.descricao }}</h5>
-                        <small class="text-info text-dark">{{ av.curso }}</small>
-                        <small class="text-info text-dark">{{ av.disciplina }}</small>
-                        <small class="text-info text-dark">{{ av.avaliacao_tipo }}</small>
+            <div class="col-md-4">
+                <h2 class="section-title">UFs</h2>
+                <div class="row">
+                    {% for uf in ufs %}
+                    <div class="col-6 mb-3">
+                        <div class="card bg-white">
+                            <div class="card-body py-2 text-center">
+                                <strong>{{ uf.sigla }}</strong> - <small>{{ uf.nome_completo }}</small>
+                            </div>
+                        </div>
                     </div>
+                    {% endfor %}
                 </div>
             </div>
-            {% endfor %}
-        </div>
-        <h2 class="section-title">Avaliacao Tipo</h2>
-        <div class="row">
-            {% for avT in avaliacao_tipo %}
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body d-flex align-items-center">
-                        <h5 class="card-title mb-0 text-dark">{{ avT.nome }}</h5>
+            <div class="col-md-8">
+                <h2 class="section-title">Cidades</h2>
+                <div class="row">
+                    {% for c in cidade %}
+                    <div class="col-md-4 mb-3">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body py-2 d-flex justify-content-between align-items-center">
+                                <span>{{ c.nome }}</span>
+                                <span class="badge badge-primary">{{ c.uf }}</span>
+                            </div>
+                        </div>
                     </div>
+                    {% endfor %}
                 </div>
             </div>
-            {% endfor %}
         </div>
-        <h2 class="section-title">Disciplina</h2>
-        <div class="row">
-            {% for dis in disciplina %}
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body d-flex align-items-center">
-                        <h5 class="card-title mb-0 text-dark">{{ dis.nome }}</h5>
-                        <small class="text-info text-dark">{{ dis.area_saber }}</small>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
+
         <h2 class="section-title">Pessoas</h2>
         <div class="row">
             {% for p in pessoa %}
             <div class="col-md-6 col-lg-4 mb-4">
                 <div class="card h-100">
-                    <div class="card-header bg-white font-weight-bold text-success">
+                    <div class="card-header bg-white font-weight-bold text-success border-bottom-0">
                         {{ p.nome }}
                     </div>
                     <div class="card-body">
                         <p class="card-text small text-muted mb-1"><strong>CPF:</strong> {{ p.cpf }}</p>
-                        <p class="card-text small text-muted mb-1"><strong>Filiação:</strong> {{ p.pai }} & {{p.mae}}</p>
                         <p class="card-text small text-muted mb-1"><strong>Email:</strong> {{ p.email }}</p>
                         <p class="card-text small text-muted mb-1"><strong>Cidade:</strong> {{ p.cidade }}</p>
                         <span class="badge badge-success">{{ p.ocupacao }}</span>
                     </div>
                     <div class="card-footer bg-light border-0">
-                        <small class="text-muted">Data de Nascimento: {{ p.data_nasc }}</small>
+                        <small class="text-muted">Nasc: {{ p.data_nasc }}</small>
                     </div>
                 </div>
             </div>
             {% endfor %}
         </div>
-        <h2 class="section-title">Cidades</h2>
+
+        <h2 class="section-title">Cursos Disponíveis</h2>
         <div class="row">
-            {% for c in cidade %}
-            <div class="col-md-3 mb-4">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center">
-                        <h5 class="mb-1">{{ c.nome }}</h5>
-                        <span class="badge badge-primary">{{ c.uf }}</span>
+            {% for c in curso %}
+            <div class="col-md-6 mb-4">
+                <div class="card border-left-success h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ c.nome }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ c.instituicao_ensino }}</h6>
+                        <div class="d-flex justify-content-between mt-3">
+                            <span><small class="font-weight-bold">Duração:</small> {{ c.duracao_meses }} meses</span>
+                            <span><small class="font-weight-bold">Carga:</small> {{ c.carga_horaria_total }}h</span>
+                        </div>
                     </div>
                 </div>
             </div>
             {% endfor %}
         </div>
+
+        <h2 class="section-title">Disciplinas</h2>
         <div class="row">
-            <div class="col-md-6">
-                <h2 class="section-title">Turnos</h2>
-                <div class="row">
-                    {% for t in turno %}
-                    <div class="col-6 mb-3">
-                        <div class="card bg-light border-0">
-                            <div class="card-body py-2 text-center">
-                                <strong>{{ t.nome }}</strong>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="col-md-6">
-                <h2 class="section-title">Turmas</h2>
-                <div class="row">
-                    {% for tu in turma %}
-                    <div class="col-6 mb-3">
-                        <div class="card bg-dark text-white border-0">
-                            <div class="card-body py-2 text-center">
-                                <strong>{{ tu.nome }}</strong>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-        <h2 class="section-title">Ocupações</h2>
-        <div class="row">
-            {% for o in ocupacao %}
+            {% for dis in disciplina %}
             <div class="col-md-3 mb-4">
                 <div class="card h-100 border-left-info shadow-sm">
-                    <div class="card-body d-flex align-items-center">
-                        <i class="mr-2 text-info">●</i> {{ o.nome }}
+                    <div class="card-body py-3">
+                        <h6 class="mb-1 font-weight-bold text-info">{{ dis.nome }}</h6>
+                        <small class="text-muted">{{ dis.area_saber }}</small>
                     </div>
                 </div>
             </div>
             {% endfor %}
         </div>
 
-        <h2 class="section-title">Matrículas Ativas</h2>
+        <h2 class="section-title">Relações: Cursos & Disciplinas</h2>
         <div class="row">
-            {% for m in matricula %}
-            <div class="col-md-6 mb-4">
-                <div class="card shadow-sm border-0">
+            {% for cd in curso_disciplina %}
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm h-100">
                     <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div>
-                                <h5 class="card-title mb-1">{{ m.pessoa }}</h5>
-                                <p class="text-muted small mb-2">{{ m.curso }}</p>
-                                <p class="text-muted small mb-2">{{ m.turma }}</p>
-                            </div>
-                            <span class="badge badge-warning">Ativa</span>
-                        </div>
-                        <p class="small mb-1"><strong>Instituição:</strong> {{ m.instituicao_ensino }}</p>
-                        <div class="alert alert-secondary py-1 px-2 mt-2 mb-0 small">
-                            Início: {{ m.data_inicio }} | Previsão Término: {{ m.data_previsao_termino }}
+                        <p class="mb-1 text-success font-weight-bold small">{{ cd.disciplina }}</p>
+                        <p class="small text-muted mb-2">{{ cd.curso }}</p>
+                        <div class="d-flex justify-content-between">
+                            <span class="badge badge-light">{{ cd.carga_horaria }}h</span>
+                            <span class="badge badge-info">{{ cd.periodo }}º Per.</span>
                         </div>
                     </div>
                 </div>
@@ -200,83 +167,118 @@
             {% endfor %}
         </div>
 
-        <h2 class="section-title">Frequência Escolar</h2>
         <div class="row">
-            {% for f in frequencia %}
-            <div class="col-md-4 mb-4">
-                <div class="card-body">
-                    <h6 class="font-weight-bold mb-1">{{ f.pessoa }}</h6>
-                    <p class="small text-muted mb-2">{{ f.disciplina }} ({{ f.curso }})</p>
-                    <p class="small text-muted mb-2">{{ f.numero_faltas }} </p>
+            <div class="col-md-8">
+                <h2 class="section-title">Matrículas Ativas</h2>
+                <div class="row">
+                    {% for m in matricula %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="font-weight-bold">{{ m.pessoa }}</h6>
+                                    <span class="badge badge-warning">Ativa</span>
+                                </div>
+                                <p class="text-muted small mb-1">{{ m.curso }}</p>
+                                <p class="text-muted mb-2" style="font-size: 0.8rem;">{{ m.turma }} | {{ m.instituicao_ensino }}</p>
+                                <div class="alert alert-secondary py-1 px-2 mb-0 small" style="font-size: 0.7rem;">
+                                    {{ m.data_inicio }} até {{ m.data_previsao_termino }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
-            {% endfor %}
+        </div>
+        <div class="col-md-4">
+            <h2 class="section-title">Turnos</h2>
+            <div class="mb-4">
+                {% for t in turno %}
+                    <span class="badge badge-dark p-2 mb-2">{{ t.nome }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        <div>
+            <h2 class="section-title">Turmas</h2>
+            <div class="mb-4">
+                {% for tu in turma %}
+                <div class="alert alert-dark py-2 mb-2 text-center small font-weight-bold">
+                    TURMA: {{ tu.nome }}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div>
+            <h2 class="section-title">Avaliações e Tipos</h2>
+            <div class="row">
+                {% for av in avaliacao %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm border-top-success">
+                        <div class="card-body">
+                            <span class="badge badge-info mb-2">{{ av.avaliacao_tipo }}</span>
+                            <h6 class="font-weight-bold">{{ av.descricao }}</h6>
+                            <p class="small text-muted mb-0"><strong>Curso:</strong> {{ av.curso }}</p>
+                            <p class="small text-muted"><strong>Disciplina:</strong> {{ av.disciplina }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h2 class="section-title">Frequência Escolar</h2>
+                <div class="row">
+                    {% for f in frequencia %}
+                    <div class="col-md-6 mb-3">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body py-2">
+                                <h6 class="font-weight-bold mb-0" style="font-size: 0.9rem;">{{ f.pessoa }}</h6>
+                                <p class="small text-danger mb-0">Faltas: {{ f.numero_faltas }}</p>
+                                <small class="text-muted">{{ f.disciplina }}</small>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h2 class="section-title">Ocupações</h2>
+                <div class="row">
+                    {% for o in ocupacao %}
+                    <div class="col-md-6 mb-3">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body py-2">
+                                <i class="text-success mr-2">●</i> {{ o.nome }}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
 
         <h2 class="section-title">Ocorrências Registradas</h2>
-        <div class="row">
+        <div class="row pb-5">
             {% for oc in ocorrencia %}
-            <div class="col-md-12 mb-3">
+            <div class="col-12 mb-3">
                 <div class="card border-0 shadow-sm bg-white">
                     <div class="card-body d-flex justify-content-between align-items-center">
-                        <div style="flex: 1;">
+                        <div>
                             <span class="badge badge-danger mb-2">Ocorrência</span>
-                            <p class="mb-1"><strong>{{ oc.pessoa }}</strong> - {{ oc.disciplina }}</p>
-                            <p class="text-muted small mb-0">{{ oc.descricao }}</p>
+                            <p class="mb-1"><strong>{{ oc.pessoa }}</strong> - <span class="text-muted">{{ oc.disciplina }}</span></p>
+                            <p class="text-dark small mb-0">{{ oc.descricao }}</p>
                         </div>
-                        <div class="text-right ml-3" style="min-width: 100px;">
+                        <div class="text-right">
                             <small class="text-muted d-block">{{ oc.data }}</small>
-                            <small class="badge badge-light">{{ oc.curso }}</small>
+                            <small class="badge badge-light border">{{ oc.curso }}</small>
                         </div>
                     </div>
                 </div>
             </div>
             {% endfor %}
         </div>
-        
-            <h2 class="section-title">Cursos Disponíveis</h2>
-            <div class="row">
-                {% for c in curso %}
-                <div class="col-md-6 mb-4">
-                    <div class="card border-left-success h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ c.nome }}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">{{ c.instituicao_ensino }}</h6>
-                            <small class="text-muted d-block">{{ c.area_saber }}</small>
-                            <small class="text-muted d-block">{{ c.disciplina }}</small>
-                            <hr>
-                            <div class="row">
-                                <div class="col-6">
-                                    <small class="d-block text-uppercase font-weight-bold text-muted">Carga Horária</small>
-                                    <span>{{ c.carga_horaria_total }}h</span>
-                                </div>
-                                <div class="col-6">
-                                    <small class="d-block text-uppercase font-weight-bold text-muted">Duração</small>
-                                    <span>{{ c.duradao_meses }} meses</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-            <h2 class="section-title">Relações: Cursos & Disciplinas</h2>
-            <div class="row">
-                {% for cd in curso_disciplina %}
-                <div class="col-md-3 mb-4">
-                    <div class="card shadow-sm h-100">
-                        <div class="card-body">
-                            <p class="mb-1 text-success font-weight-bold">{{ cd.disciplina }}</p>
-                            <p class="small text-muted mb-2">{{ cd.curso }}</p>
-                            <div class="d-flex justify-content-between">
-                                <span class="badge badge-light">{{ cd.carga_horaria }}h</span>
-                                <span class="badge badge-info">{{ cd.periodo }}º Período</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

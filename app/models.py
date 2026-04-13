@@ -1,5 +1,13 @@
 from django.db import models
 
+class UF(models.Model):
+    sigla = models.CharField(max_length=100, verbose_name="sigla:")
+    nome_completo = models.CharField(max_length=100, verbose_name="Nome completo:")
+    def __str__(self):
+            return f"{self.sigla}, {self.nome_completo}"
+    class Meta:
+        verbose_name = "UF"
+        verbose_name_plural = "UFs"
 class AvaliacaoTipo(models.Model):
     nome = models.CharField(max_length=100, verbose_name="Tipo da avaliação:")
     def __str__(self):
@@ -10,9 +18,9 @@ class AvaliacaoTipo(models.Model):
         
 class Cidade (models.Model):
     nome = models.CharField(max_length=100, verbose_name="Nome da Cidade:")
-    uf = models.CharField(max_length=3, verbose_name="Nome do Estado/Unidade Federativa:")
+    uf = models.ForeignKey(UF,max_length=3, on_delete = models.CASCADE,verbose_name="Nome do Estado/Unidade Federativa:")
     def __str__(self):
-        return f"{self.nome}, {self.uf}"
+        return self.nome    
     class Meta:
         verbose_name = "Cidade"
         verbose_name_plural = "Cidades"
@@ -54,9 +62,9 @@ class Pessoa (models.Model):
     nome = models.CharField(max_length=100, verbose_name="Nome da Pessoa:")
     pai = models.CharField(max_length=100, verbose_name="Nome do Pai:")
     mae = models.CharField(max_length=100, verbose_name="Nome da mae:")
-    cpf = models.IntegerField(verbose_name="CPF:")
+    cpf = models.CharField(max_length=20,verbose_name="CPF:")
     data_nasc = models.DateField(verbose_name="Data Nascimento:")
-    email = models.CharField(max_length=100, verbose_name="Email:")
+    email = models.EmailField(max_length=100, verbose_name="Email:")
     cidade = models.ForeignKey(Cidade, on_delete = models.CASCADE, verbose_name = "Cidade do Pessoa")
     ocupacao = models.ForeignKey(Ocupacao, on_delete = models.CASCADE, verbose_name = "Ocupação da pessoa")
 
@@ -104,7 +112,7 @@ class Curso(models.Model):
 class Matricula(models.Model):
     instituicao_ensino=models.ForeignKey(InstituicaoEnsino,on_delete = models.CASCADE, verbose_name="Instituição de Ensino:")
     curso = models.ForeignKey(Curso, on_delete = models.CASCADE, verbose_name="Nome Curso:")
-    pessoa = models.ForeignKey(Pessoa, on_delete = models.CASCADE, verbose_name="Nome Curso:")
+    pessoa = models.ForeignKey(Pessoa, on_delete = models.CASCADE, verbose_name="Nome Pessoa:")
     data_inicio = models.DateField(verbose_name = "Data da Matricula:")
     data_previsao_termino = models.DateField(verbose_name = "Previsão do termino:")
     turma = models.ForeignKey(Turma, on_delete = models.CASCADE, default = '1',verbose_name="Turma Aluno:")

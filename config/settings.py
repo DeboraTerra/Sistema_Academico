@@ -76,13 +76,13 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'Sistema_Academico',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME':'Sistema_Academico',
         'USER': 'postgres',
         'PASSWORD': '123456',
         'HOST': 'localhost',
         'PORT': '5432'
-    }
+    }   
 }
 
 
