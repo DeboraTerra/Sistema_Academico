@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Gerenciador</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* Estilos básicos para o header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            color: white;
+            padding: 15px 30px;
+        }
+        .header h2 {
+            margin: 0; /* Remove a margem padrão do h2 para alinhar melhor */
+        }
+        .btn-sair {
+            background-color: #dc3545;
+            color: white;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .btn-sair:hover {
+            background-color: #c82333;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <h2>Meu Gerenciador</h2>
+        
+        {% if request.session.usuario_id %}
+            <a href="{% url 'logout' %}" class="btn-sair">Sair</a>
+        {% endif %}
+    </header>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light px-4">
+        {% if usuario_logado and usuario_logado.tipo.nome == 'Cidadao' %}
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="/Tarefa/">Tarefa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="/MetaDiaria/">Meta diária</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="/relatorioDesempenho/">Relatório Desempenho</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="/anotacoes/">Anotações</a>
+                    </li>
+                </ul>
+            </div>
+        {% else %}
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="/usuario/">Usuarios</a>
+                    </li>
+                </ul>
+            </div>
+        {% endif %} </nav>
+
+    <main style="padding: 20px;">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

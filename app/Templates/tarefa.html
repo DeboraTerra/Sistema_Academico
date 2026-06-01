@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Tabela de Tarefas</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Titulo</th>
+                <th scope="col">Descricao</th>
+                <th scope="col">dataCriacao</th>
+                <th scope="col">dataConclusão</th>
+                <th scope="col">Status</th>
+                <th scope="col">Prioridade</th>
+                <th scope="col">Categoria</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tarefa in tarefas %}
+        <tr>
+            <td>{{ tarefa.titulo }}</td>
+            <td>{{ tarefa.descricao }}</td>
+            <td>{{ tarefa.dataCriacao }}</td>
+            <td>{{ tarefa.dataConclusao }}</td>
+            <td>{{ tarefa.status }}</td>
+            <td>{{ tarefa.prioridade }}</td>
+            <td>{{ tarefa.categoria }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div> 
+    <a href="tarefa_criar.html">
+        <button>Criar Nova tarefa</button>
+    </a>
+</div>
+{% endblock %}
